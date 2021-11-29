@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "circuitName": {
+            "value": "ercircuit-prod-001"
+        },
+        "serviceProviderName": {
+            "value": "Telenor Secure Cloud Connect"
+        },
+        "peeringLocation": {
+            "value": "Oslo"
+        },
+        "bandwidthInMbps": {
+            "value": 2000
+        },
+        "skuTier": {
+            "value": "Standard"
+        },
+        "skuFamily": {
+            "value": "MeteredData"
+        },
+        "allowClassicOperations": {
+            "value": false
+        },
+        "tags": {
+            "value": {
+              "applicationName": "ER circuit",
+              "environment": "prod"
+            }
+          }
+    }
+}
