@@ -1,0 +1,38 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "VNet_name": {
+            "value": "vnet-XXX-002"
+        },
+        "location": {
+            "value": "westeurope"
+        },
+        "addressPrefixes": {
+            "value": "10.XXX.0.0/18"
+        },
+        "snetAddressPrefixes": {
+            "value": "10.XXX.0.0/24"
+        },
+        "snetName": {
+            "value": "snet-XXX-002"
+        },
+        "nsgName": {
+            "value": "nsg-snet-XXX-005"
+        },
+        "nsgNames": {
+            "value": [
+                "nsg-snet-XXX-005"
+            ]
+        },
+        "hubVnetName": {
+            "value": "vnet-XXX-002" //name of remote VNet to peer to
+        },
+        "HubSubscriptionId": {
+            "value": "XXX" //sub id in which the remote vnet resides
+        },
+        "hubVnetRG": {
+            "value": "rg-XXX-001"
+        }
+    }    
+}
