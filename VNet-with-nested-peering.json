@@ -1,0 +1,167 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "VNet_name": {
+            "type": "String"
+        },
+        "location": {
+            "type": "string"
+        },
+        "addressPrefixes": {
+            "type": "string"
+        },
+        "snetAddressPrefixes": {
+            "type": "string"
+        },
+        "snetName": {
+            "type": "string"
+        },
+        "nsgName": {
+            "type": "string"
+        },
+        "nsgNames": {
+            "type": "array"
+        },
+        "hubVnetName": {
+            "type": "string"
+        },
+        "HubSubscriptionId": {
+            "type": "string",
+            "metadata": {
+                "description": "description"
+            }
+        },
+        "hubVnetRG": {
+            "type": "string",
+            "metadata": {
+                "description": "description"
+            }
+        }
+    },    
+    "variables": {
+        "spokePeeringName": "[concat('/peered-to-', parameters('hubVnetName'))]",
+        "hubPeeringName": "[concat('/peered-to-', parameters('VNet_name'))]",
+        "currentSub": "[subscription().subscriptionId]",
+        "currentRG": "[resourceGroup().name]"
+
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('VNet_name')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('addressPrefixes')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('snetName')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('snetAddressPrefixes')]",
+                            "delegations": [],
+                            "privateEndpointNetworkPolicies": "Enabled",
+                            "privateLinkServiceNetworkPolicies": "Enabled",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups/', parameters('nsgName'))]"
+                            }
+                        }
+                    }
+                ],
+                "virtualNetworkPeerings": [],
+                "enableDdosProtection": false
+            },
+            "dependsOn": [
+                    "[resourceId('Microsoft.Network/networkSecurityGroups/', parameters('nsgName'))]"
+                ]
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('nsgNames')[copyIndex()])]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "Port_3389",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "XXX",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+                ]
+            },
+            "copy": {
+            "name": "NSGcopy",
+            "count": "[length(parameters('nsgNames'))]"
+            }
+        },
+        {
+            "name": "[concat(parameters('VNet_name'), variables('spokePeeringName'))]",
+            "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+            "apiVersion": "2019-11-01",
+            "dependsOn": [
+                "[parameters('VNet_name')]"
+            ],
+            "properties": {
+                "allowVirtualNetworkAccess": true,
+                "allowForwardedTraffic": true,
+                "allowGatewayTransit": false,
+                "useRemoteGateways": false,
+                "remoteVirtualNetwork": {
+                "id": "[resourceid(parameters('HubSubscriptionId'), parameters('hubVnetRG'), 'Microsoft.Network/virtualNetworks', parameters('hubVnetName'))]"
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "nestedTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[parameters('hubVnetRG')]",
+            "subscriptionId": "[parameters('HubSubscriptionId')]",
+            "dependsOn": [
+                "[resourceId(variables('currentSub'), variables('currentRg'), 'Microsoft.Network/virtualNetworks', parameters('VNet_name')) ]",
+                "[concat(resourceId(variables('currentSub'), variables('currentRG'), 'Microsoft.Network/virtualNetworks', parameters('VNet_name')), '/virtualNetworkPeerings',variables('spokePeeringName'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+                "contentVersion": "1.0.0.0",
+                "resources": [
+                    {
+                    "name": "[concat(parameters('hubVnetName'), variables('hubPeeringName'))]",
+                    "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+                    "apiVersion": "2019-11-01",
+                    "properties": {
+                        "allowVirtualNetworkAccess": true,
+                        "allowForwardedTraffic": true,
+                        "allowGatewayTransit": false,
+                        "useRemoteGateways": false,
+                        "remoteVirtualNetwork": {
+                        "id": "[resourceId(variables('currentSub'), variables('currentRg'), 'Microsoft.Network/virtualNetworks', parameters('VNet_name')) ]"
+                        }
+                    }
+                    }
+                ]
+                }
+            }
+        }
+    
+    ]
+        
+}
