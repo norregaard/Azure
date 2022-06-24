@@ -1,0 +1,68 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "privateZoneNames": {
+            "type": "array"
+        },
+        "vnetSettings": {
+            "type": "object",
+            "metadata": {
+                "description": "Object containinf vlink name and vnet ID"
+            }
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "2018-09-01",
+            "type": "Microsoft.Network/privateDnsZones",
+            "name": "[concat(parameters('privateZoneNames')[copyIndex()])]",
+            "location": "global",
+            "dependsOn": [],
+            "tags": {},
+            "properties": {},
+            "copy": {
+            "name": "PrivateZoneCopy",
+            "count": "[length(parameters('privateZoneNames'))]"  
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
+            "apiVersion": "2018-09-01",
+            "name": "[concat(parameters('privateZoneNames')[copyIndex()], '/', parameters('vnetSettings').vlink[0].name)]",
+            "location": "global",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateDnsZones', concat(parameters('privateZoneNames')[copyIndex()]))]"
+            ],
+            "properties": {
+                "registrationEnabled": false,
+                "virtualNetwork": {
+                    "id": "[parameters('vnetSettings').vlink[0].vnetId]"
+                }
+            },
+            "copy": {
+            "name": "vlinkWeuCopy",
+            "count": "[length(parameters('privateZoneNames'))]"  
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
+            "apiVersion": "2018-09-01",
+            "name": "[concat(parameters('privateZoneNames')[copyIndex()], '/', parameters('vnetSettings').vlink[1].name)]",
+            "location": "global",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateDnsZones', concat(parameters('privateZoneNames')[copyIndex()]))]"
+            ],
+            "properties": {
+                "registrationEnabled": false,
+                "virtualNetwork": {
+                    "id": "[parameters('vnetSettings').vlink[1].vnetId]"
+                }
+            },
+            "copy": {
+            "name": "vlinkSwcCopy",
+            "count": "[length(parameters('privateZoneNames'))]"  
+            }
+        }
+    ]
+}

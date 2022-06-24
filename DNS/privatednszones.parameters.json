@@ -1,0 +1,26 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "privateZoneNames": {
+            "value": [
+                "privatelink.blob.core.windows.net",
+                "privatelink.vaultcore.azure.net"
+            ]
+        },
+        "vnetSettings": {
+            "value": {
+                "vlink": [
+                    {
+                        "name": "vlink-vnet-conn-weu-001",
+                        "vnetId": "/subscriptions/XXX/resourceGroups/rg-netw-conn-001/providers/Microsoft.Network/virtualNetworks/vnet-conn-weu-001"
+                    },
+                    {
+                        "name": "vlink-vnet-conn-weu-002",
+                        "vnetId": "/subscriptions/XXX/resourceGroups/rg-netw-conn-001/providers/Microsoft.Network/virtualNetworks/vnet-conn-weu-002"
+                    }
+                ]
+            }
+        }
+    }
+}
