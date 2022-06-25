@@ -1,0 +1,30 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "clusterName": {
+        "value": "aks-pr-weu-001"
+      },
+      "location": {
+        "value": "westeurope"
+      },
+      "dnsPrefix": {
+        "value": "aks-pr-weu-001"
+      },
+      "osDiskSizeGB": {
+        "value": 0
+      },
+      "agentCount": {
+        "value": 3
+      },
+      "agentVMSize": {
+        "value": "Standard_D2s_v3"
+      },
+      "linuxAdminUsername": {
+        "value": "azureuser"
+      },
+      "sshRSAPublicKey": {
+        "value": "ssh-rsa AAAAB3NzaC1yc insert your own public ssh key here"
+      }
+    }
+  }
