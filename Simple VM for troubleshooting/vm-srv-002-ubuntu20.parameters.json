@@ -1,0 +1,57 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "westeurope"
+        },
+        "subnetName": {
+            "value": "snet-conn-weu-001"
+        },
+        "virtualNetworkId": {
+            "value": "/subscriptions/XXX/resourceGroups/rg-netw-conn-001/providers/Microsoft.Network/virtualNetworks/vnet-conn-weu-001"
+        },
+        "virtualMachineName": {
+            "value": "vm-srv-002"
+        },
+        "virtualMachineComputerName": {
+            "value": "vm-srv-002"
+        },
+        "virtualMachineRG": {
+            "value": "rg-srv-mgmt-001"
+        },
+        "osDiskType": {
+            "value": "StandardSSD_LRS"
+        },
+        "osDiskDeleteOption": {
+            "value": "Delete"
+        },
+        "virtualMachineSize": {
+            "value": "Standard_B2s"
+        },
+        "nicDeleteOption": {
+            "value": "Delete"
+        },
+        "adminUsername": {
+            "value": "localadmin"
+        },
+        "adminPublicKey": {
+            "value": "ssh-rsa AAAAB3NzaC Insert public ssh key here"
+        },
+        "autoShutdownStatus": {
+            "value": "Enabled"
+        },
+        "autoShutdownTime": {
+            "value": "19:00"
+        },
+        "autoShutdownTimeZone": {
+            "value": "W. Europe Standard Time"
+        },
+        "autoShutdownNotificationStatus": {
+            "value": "Disabled"
+        },
+        "autoShutdownNotificationLocale": {
+            "value": "en"
+        }
+    }
+}
