@@ -1,0 +1,41 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "loadBalancers_name": {
+            "value": "lb-netw-dv-weu-001"
+        },
+        "virtualNetworks_externalid": {
+            "value": "/subscriptions/XXX/resourceGroups/rg-netw-XXX-001/providers/Microsoft.Network/virtualNetworks/vnet-XXX-dv-weu-002"
+        },
+        "location":{
+            "value": "westeurope"
+        },
+        "backendpool_name": {
+            "value": "backendpool-lb-XXX-dv-weu-003"
+        },
+        "frontendip_name": {
+            "value": "frontendip-lb-XXX-dv-weu-003"
+        },
+        "privateIPaddress": {
+            "value": "10.XXX.6"
+        },
+        "frontendSubnet": {
+            "value": "snet-XXX-weu-007"
+        },
+        "lbBackendAddresses": {
+            "value": {
+                "lbBackend": [
+                    {
+                        "name": "lbbackend1",
+                        "ipAddress": "10.XXX"
+                    },
+                    {
+                        "name": "lbbackend2",
+                        "ipAddress": "10.XXX"
+                    }
+                ]
+            }
+        } 
+    }
+}

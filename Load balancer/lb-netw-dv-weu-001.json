@@ -1,0 +1,141 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "loadBalancers_name": {
+            "type": "String"
+        },
+        "virtualNetworks_externalid": {
+            "type": "String"
+        },
+        "location": {
+            "type": "String"
+        },
+        "backendpool_name": {
+            "type": "string"
+        },
+        "frontendip_name": {
+            "type": "string"
+        },
+        "privateIPaddress": {
+            "type": "string"
+        },
+        "frontendSubnet": {
+            "type": "string"
+        },
+        "lbBackendAddresses": {
+            "type": "object",
+            "metadata": {
+                "description": "description"
+            }
+        }       
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/loadBalancers",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('loadBalancers_name')]",
+            "location": "[parameters('location')]",
+            "tags": {},
+            "sku": {
+                "name": "Standard",
+                "tier": "Regional"
+            },
+            "properties": {
+                "frontendIPConfigurations": [
+                    {
+                        "name": "[parameters('frontendip_name')]",
+                        "properties": {
+                            "privateIPAddress": "[parameters('privateIPaddress')]",
+                            "privateIPAllocationMethod": "Static",
+                            "subnet": {
+                                "id": "[concat(parameters('virtualNetworks_externalid'), '/subnets/', parameters('frontendSubnet'))]"
+                            },
+                            "privateIPAddressVersion": "IPv4"
+                        },
+                        "zones": [
+                            "2",
+                            "1",
+                            "3"
+                        ]
+                    }
+                ],
+                "backendAddressPools": [
+                    {
+                        "name": "[parameters('backendpool_name')]"
+                    }    
+                ],
+                "loadBalancingRules": [
+                    {
+                        "name": "httprule-testvms",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_name')), '/frontendIPConfigurations/', parameters('frontendip_name'))]"
+                            },
+                            "frontendPort": 80,
+                            "backendPort": 80,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 4,
+                            "protocol": "Tcp",
+                            "enableTcpReset": true,
+                            "loadDistribution": "SourceIPProtocol",
+                            "disableOutboundSnat": true,
+                            "backendAddressPool": {
+                                "id": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', parameters('loadBalancers_name'), parameters('backendpool_name'))]"
+                            },
+                            "probe": {
+                                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_name')), '/probes/HttpProbe')]"
+                            }
+                        }
+                    }
+                ],
+                "probes": [
+                    {
+                        "name": "HttpProbe",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "port": 80,
+                            "intervalInSeconds": 5,
+                            "numberOfProbes": 2
+                        }
+                    }
+                ],
+                "inboundNatRules": [],
+                "outboundRules": [],
+                "inboundNatPools": []
+            }
+        },
+        {
+            "apiVersion": "2021-05-01",
+            "type": "Microsoft.Network/loadBalancers/backendAddressPools",
+            "name": "[concat(parameters('loadBalancers_name'), '/', parameters('backendpool_name'))]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/loadBalancers/', parameters('loadBalancers_name'))]"
+            ],
+            "properties": {
+                "loadBalancerBackendAddresses": [
+                    {
+                        "name": "[parameters('lbBackendAddresses').lbBackend[0].name]",
+                        "properties": {
+                            "virtualNetwork": {
+                                "id": "[parameters('virtualNetworks_externalid')]"
+                            },
+                            "ipAddress": "[parameters('lbBackendAddresses').lbBackend[0].ipAddress]"
+                        }
+                    },
+                    {
+                        "name": "[parameters('lbBackendAddresses').lbBackend[1].name]",
+                        "properties": {
+                            "virtualNetwork": {
+                                "id": "[parameters('virtualNetworks_externalid')]"
+                            },
+                            "ipAddress": "[parameters('lbBackendAddresses').lbBackend[1].ipAddress]"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
