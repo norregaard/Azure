@@ -1,0 +1,43 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vnetName": {
+            "value": "vnet-conn-weu-001"
+        },
+        "location": {
+            "value": "westeurope"
+        },
+        "addressPrefixes": {
+            "value": "10.100.0.0/18"
+        },
+        "snetAddressPrefixes": {
+            "value": [
+                "10.100.0.0/24",
+                "10.100.1.0/24",
+                "10.100.2.0/24"
+            ]
+        },
+        "snetNames": {
+            "value": [
+                "snet-conn-weu-001",
+                "snet-conn-weu-002",
+                "snet-conn-weu-003"
+            ]
+        },
+        "nsgNames": {
+            "value": [
+                "nsg-snet-conn-weu-001",
+                "nsg-snet-conn-weu-002",
+                "nsg-snet-conn-weu-003"
+            ]
+        },
+        "nsgPrefixes": {
+            "value": [
+                ["10.100.1.0/24", "10.100.2.0/24"],               
+                ["10.100.0.0/24", "10.100.2.0/24"],
+                ["10.100.0.0/24", "10.100.1.0/24"]
+            ]
+        }
+    }    
+}

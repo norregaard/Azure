@@ -1,0 +1,117 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vnetName": {
+            "type": "String"
+        },
+        "location": {
+            "type": "string"
+        },
+        "addressPrefixes": {
+            "type": "string"
+        },
+        "snetAddressPrefixes": {
+            "type": "array"
+        },
+        "snetNames": {
+            "type": "array"
+        },
+        "nsgNames": {
+            "type": "array"
+        },
+        "nsgPrefixes": {
+            "type": "array",
+            "metadata": {
+                "description": "description"
+            }
+        }
+    },    
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('vnetName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('addressPrefixes')]"
+                    ]
+                },
+                "copy": [
+                    {
+                        "name": "subnets",
+                        "dependsOn": [
+                            "[resourceId('Microsoft.Network/networkSecurityGroups/', parameters('nsgNames')[copyIndex('subnets')])]"
+                        ],
+                        "count": "[length(parameters('snetNames'))]",
+                        "input": {
+                        "name": "[concat(parameters('snetNames')[copyIndex('subnets')])]",
+                        "properties": {
+                            "addressPrefix": "[parameters('snetAddressPrefixes')[copyIndex('subnets')]]",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups/', parameters('nsgNames')[copyIndex('subnets')])]"
+                                }
+                            }
+                        }
+                    }
+                    
+                ]
+            
+            }         
+                
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2021-08-01",
+            "name": "[concat(parameters('nsgNames')[copyIndex()])]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "Port_3389",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "10.XXX.XXX.XXX",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "DenyInternalSubnetInbound",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 4096,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": 
+                                "[concat(parameters('nsgPrefixes')[copyIndex()])]",
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+
+                ]
+            },
+            "copy": {
+            "name": "NSGcopy",
+            "count": "[length(parameters('nsgNames'))]"
+            }
+        }    
+    ]
+        
+}
