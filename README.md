@@ -1,4 +1,3 @@
 # Azure
 
-Testing updating straight to main
-Updating via test feature branch
+This repo contains arm and bicep files

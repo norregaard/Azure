@@ -1,0 +1,20 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "westeurope"
+    },
+    "adminUsername": {
+      "value": "localadmin"
+    },
+    "adminPassword": {
+        "reference": {
+          "keyVault": {
+            "id": "/subscriptions/XXX/resourceGroups/rbs-mgmt/providers/Microsoft.KeyVault/vaults/kv-name-001"
+          },
+          "secretName": "localadmin"
+        }
+     }
+  }
+}
