@@ -1,3 +1,3 @@
 # Azure
 
-This repo contains arm and bicep files
+This repo contains arm/bicep templates for use in Azure
