@@ -1,0 +1,5 @@
+Make sure the ARM template and param file is located in the working directory from where you're running the PowerShell command:
+
+New-AzResourceGroupDeployment -Name Secret_deployment -ResourceGroupName <add ResourceGroupName> `
+  -TemplateFile .\deploy_secrets.json `
+  -TemplateParameterFile .\deploy_secrets.parameters.json
