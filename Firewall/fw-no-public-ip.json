@@ -25,7 +25,7 @@
       "type": "string",
       "defaultValue": "conn",
       "metadata": {
-        "description": "name of the applications GERE"
+        "description": "name of the application"
       }
     },
     "partition": {
