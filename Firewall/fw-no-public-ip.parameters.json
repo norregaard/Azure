@@ -12,7 +12,7 @@
       "value": "conn"
     },
     "partition": {
-      "value": "swc"
+      "value": "weu"
     },
     "identifier": {
       "value": "001"
@@ -24,7 +24,7 @@
       "value": "/subscriptions/<insert subscription ID>/resourceGroups/rg-netw-conn-001/providers/Microsoft.Network/virtualNetworks/vnet-conn-weu-001/subnets/AzureFirewallManagementSubnet"
     },
     "firewallPolicy_externalid": {
-      "value": "/subscriptions/<insert subscription ID>/resourceGroups/rg-fw-conn-001/providers/Microsoft.Network/firewallPolicies/fwpolicy-conn-001"
+      "value": "/subscriptions/<insert subscription ID>/resourceGroups/rg-netw-conn-001/providers/Microsoft.Network/firewallPolicies/fwpolicy-conn-002"
     }
   }
 }
