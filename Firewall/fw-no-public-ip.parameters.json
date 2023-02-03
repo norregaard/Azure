@@ -18,13 +18,13 @@
       "value": "001"
     },
     "azureFirewallSubnetId": {
-      "value": "/subscriptions/fe82accc-f7cc-466f-9efe-1fd0143c3e57/resourceGroups/rg-netw-conn-001/providers/Microsoft.Network/virtualNetworks/vnet-conn-weu-001/subnets/AzureFirewallSubnet"
+      "value": "/subscriptions/<insert subscription ID>/rg-netw-conn-001/providers/Microsoft.Network/virtualNetworks/vnet-conn-weu-001/subnets/AzureFirewallSubnet"
     },
     "azureFirewallMgmtSubnetId": {
-      "value": "/subscriptions/fe82accc-f7cc-466f-9efe-1fd0143c3e57/resourceGroups/rg-netw-conn-001/providers/Microsoft.Network/virtualNetworks/vnet-conn-weu-001/subnets/AzureFirewallManagementSubnet"
+      "value": "/subscriptions/<insert subscription ID>/resourceGroups/rg-netw-conn-001/providers/Microsoft.Network/virtualNetworks/vnet-conn-weu-001/subnets/AzureFirewallManagementSubnet"
     },
     "firewallPolicy_externalid": {
-      "value": "/subscriptions/fe82accc-f7cc-466f-9efe-1fd0143c3e57/resourceGroups/rg-fw-conn-001/providers/Microsoft.Network/firewallPolicies/fwpolicy-conn-001"
+      "value": "/subscriptions/<insert subscription ID>/resourceGroups/rg-fw-conn-001/providers/Microsoft.Network/firewallPolicies/fwpolicy-conn-001"
     }
   }
 }
