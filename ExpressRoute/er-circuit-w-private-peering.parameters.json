@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+      "circuitName": {
+          "value": "ercir-XXX-002"
+      },
+      "serviceProviderName": {
+          "value": "<Carrier name>"
+      },
+      "peeringLocation": {
+          "value": "<Carrier location/city>"
+      },
+      "bandwidthInMbps": {
+          "value": 2000
+      },
+      "skuTier": {
+          "value": "Standard"
+      },
+      "skuFamily": {
+          "value": "MeteredData"
+      },
+      "allowClassicOperations": {
+          "value": false
+      },
+      "ASN": {
+          "value": "<insert ASN number>"
+      },
+      "primaryPeerAddPrefix": {
+          "value": "10.XXX.XXX.XXX/30"
+      },
+      "secondaryPeerAddPrefix": {
+          "value": "10.XXX.XXX.XXX/30"
+      },
+      "vlan": {
+          "value": 90
+      },
+      "enableReadOnlyLock": {
+          "value": true
+      },
+      "gwManagerEtag": {
+          "value": "7"
+      }
+  }
+}
