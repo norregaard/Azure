@@ -1,0 +1,172 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "circuitName": {
+        "type": "string",
+        "metadata": {
+          "description": "This is the name of the ExpressRoute circuit."
+        }
+      },
+      "serviceProviderName": {
+        "type": "string",
+        "metadata": {
+          "description": "This is the name of the ExpressRoute Service Provider. It must exactly match one of the Service Providers from List ExpressRoute Service Providers API call."
+        }
+      },
+      "peeringLocation": {
+        "type": "string",
+        "metadata": {
+          "description": "This is the name of the peering location and not the ARM resource location. It must exactly match one of the available peering locations from List ExpressRoute Service Providers API call."
+        }
+      },
+      "bandwidthInMbps": {
+        "type": "int",
+        "metadata": {
+          "description": "This is the bandwidth in Mbps of the circuit being created. It must exactly match one of the available bandwidth offers List ExpressRoute Service Providers API call."
+        }
+      },
+      "skuTier": {
+        "type": "string",
+        "defaultValue": "Standard",
+        "allowedValues": [
+          "Standard",
+          "Premium"
+        ],
+        "metadata": {
+          "description": "Chosen SKU Tier of ExpressRoute circuit. Choose from Premium or Standard SKU tiers."
+        }
+      },
+      "skuFamily": {
+        "type": "string",
+        "defaultValue": "MeteredData",
+        "allowedValues": [
+          "MeteredData",
+          "UnlimitedData"
+        ],
+        "metadata": {
+          "description": "Chosen SKU family of ExpressRoute circuit. Choose from MeteredData or UnlimitedData SKU families."
+        }
+      },
+      "location": {
+        "type": "string",
+        "defaultValue": "[resourceGroup().location]",
+        "metadata": {
+          "description": "Location for all resources."
+        }
+      },
+       "allowClassicOperations": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "Allow the circuit to interact with classic (RDFE) resources"
+            }
+      },
+      "ASN": {
+            "type": "string",
+            "metadata": {
+                "description": "ASN ID"
+            }
+      },
+      "primaryPeerAddPrefix": {
+          "type": "string",
+          "metadata": {
+              "description": "primaryPeerAddPrefix"
+          }
+      },
+      "secondaryPeerAddPrefix": {
+          "type": "string",
+          "metadata": {
+              "description": "secondaryPeerAddPrefix"
+          }
+      },
+      "vlan": {
+          "type": "int",
+          "metadata": {
+              "description": "vlan id"
+          }
+      },
+      "enableReadOnlyLock": {
+        "type": "bool",
+        "defaultValue": false,
+        "metadata": {
+            "description": "Determines if the resources should be locked to prevent changes or deletion."
+          }
+      },
+      "gwManagerEtag": {
+          "type": "string",
+          "metadata": {
+              "description": "gatewayManagerEtag"
+          }
+      }    
+    },
+    "functions": [],
+    "resources": [
+      {
+        "type": "Microsoft.Network/expressRouteCircuits",
+        "apiVersion": "2021-02-01",
+        "name": "[parameters('circuitName')]",
+        "location": "[parameters('location')]",
+        "sku": {
+          "name": "[format('{0}_{1}', parameters('skuTier'), parameters('skuFamily'))]",
+          "tier": "[parameters('skuTier')]",
+          "family": "[parameters('skuFamily')]"
+        },
+        "properties": {
+          "peerings": [
+                    {
+                        "name": "AzurePrivatePeering",
+                        "properties": {
+                            "peeringType": "AzurePrivatePeering",
+                            "peerASN": "[parameters('ASN')]",
+                            "primaryPeerAddressPrefix": "[parameters('primaryPeerAddPrefix')]",
+                            "secondaryPeerAddressPrefix": "[parameters('secondaryPeerAddPrefix')]",
+                            "state": "Enabled",
+                            "vlanId": "[parameters('vlan')]",
+                            "gatewayManagerEtag": "[parameters('gwManagerEtag')]"
+                        }
+                    }
+                ],
+          "authorizations": [],
+          "serviceProviderProperties": {
+            "serviceProviderName": "[parameters('serviceProviderName')]",
+            "peeringLocation": "[parameters('peeringLocation')]",
+            "bandwidthInMbps": "[parameters('bandwidthInMbps')]"
+          },
+          "allowClassicOperations": "[parameters('allowClassicOperations')]",
+          "gatewayManagerEtag": "[parameters('gwManagerEtag')]"
+        }
+      },
+      {
+            "type": "Microsoft.Network/expressRouteCircuits/peerings",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('circuitName'), '/AzurePrivatePeering')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/expressRouteCircuits', parameters('circuitName'))]"
+            ],
+            "properties": {
+                "peeringType": "AzurePrivatePeering",
+                "peerASN": "[parameters('ASN')]",
+                "primaryPeerAddressPrefix": "[parameters('primaryPeerAddPrefix')]",
+                "secondaryPeerAddressPrefix": "[parameters('secondaryPeerAddPrefix')]",
+                "state": "Enabled",
+                "vlanId": "[parameters('vlan')]",
+                "gatewayManagerEtag": "[parameters('gwManagerEtag')]"
+            }
+      },
+      {
+        "condition": "[parameters('enableReadOnlyLock')]",
+        "type": "Microsoft.Authorization/locks",
+        "apiVersion": "2020-05-01",
+        "name": "ER circuit lock",
+        "scope": "[concat('Microsoft.Network/expressRouteCircuits/', parameters('circuitName'))]",
+        "dependsOn": [
+          "[resourceId('Microsoft.Network/expressRouteCircuits', parameters('circuitName'))]"
+          ],
+        "properties": {
+          "level": "ReadOnly",
+          "notes": "ER circuit should not be updated or deleted"
+        }
+      }      
+    ]
+  }
