@@ -1,0 +1,89 @@
+{
+  "mode": "Indexed",
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.Network/virtualNetworks"
+            },
+            {
+              "field": "Microsoft.Network/virtualNetworks/addressSpace",
+              "exists": true
+            },
+            {
+              "value": "[length(field('Microsoft.Network/virtualNetworks/addressSpace'))]",
+              "greater": 0
+            }
+          ]
+        },
+        {
+          "count": {
+            "field": "Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes[*]",
+            "where": {
+              "count": {
+                "value": "[parameters('spokeAllocations')]",
+                "name": "spokeAllocation",
+                "where": {
+                  "allOf": [
+                    {
+                      "field": "location",
+                      "equals": "[current('spokeAllocation').location]"
+                    },
+                    {
+                      "value": "[ipRangeContains(current('spokeAllocation').CIDR, current('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes[*]'))]",
+                      "equals": true
+                    }
+                  ]
+                }
+              },
+              "greater": 0
+            }
+          },
+          "notequals": "[length(field('Microsoft.Network/virtualNetworks/addressSpace.addressPrefixes'))]"
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  },
+  "parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+       "displayName": "Effect",
+        "description": "Set whether the policy should be enforced, or an audit trail should be established."
+      },
+      "allowedValues": [
+        "Deny",
+        "Audit",
+        "Disabled"
+      ],
+      "defaultValue": "Deny"
+    },
+    "spokeAllocations": {
+      "type": "Array",
+      "metadata": {
+        "displayName": "Regional CIDR Allocations",
+        "description": "An array of CIDR objects (environment, location and CIDR), to be compared against CIDRs allocated to VNET resources."
+      },
+      "defaultValue": [
+        {
+          "location": "swedencentral",
+          "CIDR": "10.100.0.0/16"
+        },
+        {
+          "location": "swedencentral",
+          "CIDR": "10.101.0.0/16"
+        },
+        {
+          "location": "westeurope",
+          "CIDR": "10.200.0.0/16"
+        }
+      ]
+    }
+  }
+}
