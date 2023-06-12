@@ -8,3 +8,6 @@ The ARM template can be run with the following command (from e.g. the cloud shel
 New-AzResourceGroupDeployment -Name deploy_kv -ResourceGroupName <RESOURCE GROUP NAME> `
 -TemplateFile .\keyvault-w-privateendpoint-001.json `
 -TemplateParameterFile .\keyvault-w-privateendpoint-001.parameters.json
+  
+See here for more info:
+https://www.vi-tips.com/2023/06/azure-deploy-key-vault-with-private.html
