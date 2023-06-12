@@ -1,0 +1,15 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "keyVaultName": {
+            "value": "kv-azure-dev-weu-901"
+        },
+        "keyVaultPrivateEndpointName": {
+            "value": "pe-kv-azure-dev-weu-901"
+        },
+		"subnetId": {
+            "value": "/subscriptions/<SUBSCRIPTION ID>/resourcegroups/<RG NAME>/providers/Microsoft.Network/virtualNetworks/<VNET NAME>/subnets/<SUBNET NAME>"
+        }
+    }
+}
