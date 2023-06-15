@@ -1,0 +1,66 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "westeurope"
+        },
+        "subnetName": {
+            "value": "<SUBNET NAME>"
+        },
+        "virtualNetworkId": {
+            "value": "/subscriptions/<SUB ID>/resourceGroups/r<RG NAME>/providers/Microsoft.Network/virtualNetworks/<VNET NAME>"
+        },
+        "virtualMachineName": {
+            "value": "vm-win2k22-001"
+        },
+        "virtualMachineComputerName": {
+            "value": "vm-win2k22-001"
+        },
+        "virtualMachineRG": {
+            "value": "<RG NAME>"
+        },
+        "osDiskType": {
+            "value": "StandardSSD_LRS"
+        },
+        "osDiskDeleteOption": {
+            "value": "Delete"
+        },
+        "virtualMachineSize": {
+            "value": "Standard_B2s"
+        },
+        "nicDeleteOption": {
+            "value": "Delete"
+        },
+        "adminUsername": {
+            "value": "<ADMIN USERNAME>"
+        },
+        "adminPassword": {
+            "value": "<PASSWORD>"
+        },
+        "patchMode": {
+            "value": "AutomaticByOS"
+        },
+        "enableHotpatching": {
+            "value": false
+        },
+        "autoShutdownStatus": {
+            "value": "Enabled"
+        },
+        "autoShutdownTime": {
+            "value": "19:00"
+        },
+        "autoShutdownTimeZone": {
+            "value": "UTC"
+        },
+        "autoShutdownNotificationStatus": {
+            "value": "Enabled"
+        },
+        "autoShutdownNotificationLocale": {
+            "value": "en"
+        },
+        "autoShutdownNotificationEmail": {
+            "value": "adminuserd@email.com"
+        }
+    }
+}
