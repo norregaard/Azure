@@ -27,16 +27,16 @@
       "value": "001"
     },
     "virtualNetworkId": {
-      "value": "/subscriptions/<INSERT SUB ID>/rg-netw-conn-001/providers/Microsoft.Network/virtualNetworks/vnet-conn-weu-001"
+      "value": "/subscriptions/<INSERT SUB ID>/resourceGroups/<INSERT RG NAME>/providers/Microsoft.Network/virtualNetworks/vnet-conn-weu-001"
     },
     "azureFirewallSubnetId": {
-      "value": "/subscriptions/<INSERT SUB ID>/resourceGroups/rg-netw-conn-001/providers/Microsoft.Network/virtualNetworks/vnet-conn-weu-001/subnets/AzureFirewallSubnet"
+      "value": "/subscriptions/<INSERT SUB ID>/resourceGroups/<INSERT RG NAME>/providers/Microsoft.Network/virtualNetworks/vnet-conn-weu-001/subnets/AzureFirewallSubnet"
     },
     "azureFirewallMgmtSubnetId": {
-      "value": "/subscriptions/<INSERT SUB ID>/resourceGroups/rg-netw-conn-001/providers/Microsoft.Network/virtualNetworks/vnet-conn-weu-001/subnets/AzureFirewallManagementSubnet"
+      "value": "/subscriptions/<INSERT SUB ID>/resourceGroups/<INSERT RG NAME>/providers/Microsoft.Network/virtualNetworks/vnet-conn-weu-001/subnets/AzureFirewallManagementSubnet"
     },
     "firewallPolicy_id": {
-      "value": "/subscriptions/<INSERT SUB ID>/resourceGroups/rg-netw-conn-001/providers/Microsoft.Network/firewallPolicies/plcy-fw-allow-between-lndz-and-conn-dv-001_premium"
+      "value": "/subscriptions/<INSERT SUB ID>/resourceGroups/<INSERT RG NAME>/providers/Microsoft.Network/firewallPolicies/policy-name-001_premium"
     },
     "availabilityZones": {
       "value": [
