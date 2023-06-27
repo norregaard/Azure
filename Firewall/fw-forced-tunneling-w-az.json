@@ -1,0 +1,168 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "tags": {
+        "type": "object",
+        "metadata": {
+          "description": "Default tags for each resource as agreed in design."
+        }
+      },
+      "location": {
+        "type": "string",
+        "defaultValue": "[resourceGroup().location]",
+        "metadata": {
+          "description": "location for all resources as determined by the resource group"
+        }
+      },
+      "environment": {
+        "type": "string",
+        "defaultValue": "dv",
+        "allowedValues": [
+          "dv",
+          "sb",
+          "mt",
+          "te",
+          "ft",
+          "it",
+          "pt",
+          "st",
+          "pr"
+        ],
+        "metadata": {
+          "description": "dev/test/prod of the project"
+        }
+      },
+      "application": {
+        "type": "string",
+        "defaultValue": "conn",
+        "metadata": {
+          "description": "name of the application"
+        }
+      },
+      "partition": {
+        "type": "string",
+        "defaultValue": "weu",
+        "metadata": {
+          "description": "name of the partition based on region"
+        }
+      },
+      "identifier": {
+        "type": "string",
+        "defaultValue": "001",
+        "metadata": {
+          "description": "Number of the partition based on region"
+        }
+      },
+      "virtualNetworkId": {
+        "type": "string",
+        "metadata": {
+          "description": "Virtual Network Name"
+        }
+      },
+      "azureFirewallSubnetId": {
+        "type": "string",
+        "metadata": {
+          "description": "Azure Firewall Subnet Id"
+        }
+      },
+      "azureFirewallMgmtSubnetId": {
+        "type": "string",
+        "metadata": {
+          "description": "Azure Firewall Mgmt Subnet Id"
+        }
+      },
+      "firewallPolicy_id": {
+        "type": "String"
+      },
+      "availabilityZones": {
+        "type": "array",
+        "defaultValue": [
+          "1",
+          "2",
+          "3"
+        ],
+        "metadata": {
+          "description": "Availability zone numbers e.g. 1,2,3."
+        }
+      }
+    },
+    "variables": {
+      "azureFirewallName": "[concat('fw', '-', parameters('application'), '-', parameters('environment'), '-', parameters('partition'), '-', parameters('identifier'))]",
+      "azureFirewallMgmtIpName": "[concat('pip-fw-gw', '-', parameters('application'), '-', parameters('environment'), '-', parameters('partition'), '-', parameters('identifier'))]",
+      "azureFirewallMgmtIpId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('azureFirewallMgmtIpName'))]"
+    },
+    "resources": [
+      {
+        "apiVersion": "2022-07-01",
+        "type": "Microsoft.Network/azureFirewalls",
+        "name": "[variables('azureFirewallName')]",
+        "location": "[parameters('location')]",
+        "zones": "[parameters('availabilityZones')]",
+        "tags": {
+          "costCentre": "[parameters('tags').costCentre]",
+          "Environment": "[parameters('tags').Environment]",
+          "Location": "[parameters('tags').Location]",
+          "Owner": "[parameters('tags').Owner]",
+          "Organization": "[parameters('tags').Organization]"
+        },
+        "dependsOn": [
+          "[variables('azureFirewallMgmtIpId')]"
+        ],
+        "properties": {
+          "sku": {
+                      "name": "AZFW_VNet",
+                      "tier": "Premium"
+                  },
+          "ipConfigurations": [
+            {
+              "name": "DoesNotExist",
+              "properties": {
+                "subnet": {
+                  "id": "[parameters('azureFirewallSubnetId')]"
+                }
+              }
+            }
+          ],
+          "managementIpConfiguration": {
+            "name": "[variables('azureFirewallMgmtIpName')]",
+            "properties": {
+              "subnet": {
+                "id": "[parameters('azureFirewallMgmtSubnetId')]"
+              },
+              "publicIPAddress": {
+                "id": "[variables('azureFirewallMgmtIpId')]"
+              }
+            }
+          },
+    "firewallPolicy": {
+            "id": "[parameters('firewallPolicy_id')]"
+          }
+        }
+      },
+      {
+        "name": "[variables('azureFirewallMgmtIpName')]",
+        "type": "Microsoft.Network/publicIPAddresses",
+        "apiVersion": "2022-07-01",
+        "location": "[parameters('location')]",
+        "zones": "[parameters('availabilityZones')]",
+        "tags": {
+          "costCentre": "[parameters('tags').costCentre]",
+          "Environment": "[parameters('tags').Environment]",
+          "Location": "[parameters('tags').Location]",
+          "Owner": "[parameters('tags').Owner]",
+          "Organization": "[parameters('tags').Organization]"
+        },
+        "sku": {
+          "name": "Standard",
+          "tier": "regional"
+        },
+        "properties": {
+          "publicIPAllocationMethod": "Static",
+          "publicIPAddressVersion": "IPv4"
+        }
+      }
+    ],
+    "outputs": {}
+  }
+  
