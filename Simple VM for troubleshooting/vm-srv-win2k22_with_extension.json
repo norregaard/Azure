@@ -177,7 +177,7 @@
                 "fileUris": [
                     "https://raw.githubusercontent.com/norregaard/Azure/main/PowerShell_scripts/Install_IIS.ps1"
                 ],
-                "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File installWebServer.ps1"
+                "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File Install_IIS.ps1"
                 }
             }
         },
