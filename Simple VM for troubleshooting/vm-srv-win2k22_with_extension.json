@@ -175,7 +175,7 @@
                 "autoUpgradeMinorVersion": true,
                 "settings": {
                 "fileUris": [
-                    "https://raw.githubusercontent.com/Azure/azure-docs-json-samples/master/tutorial-vm-extension/installWebServer.ps1"
+                    "https://raw.githubusercontent.com/norregaard/Azure/main/PowerShell_scripts/Install_IIS.ps1"
                 ],
                 "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File installWebServer.ps1"
                 }
