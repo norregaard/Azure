@@ -11,6 +11,11 @@ Commands to run:
 > terraform plan -out vnet-two-subnets.tfplan
 > terraform apply vnet-two-subnets.tfplan
 
+and to delete the resources again:
+
+> terraform plan -destroy -out vnet-two-subnets.destroy.tfplan
+> terraform apply vnet-two-subnets.destroy.tfplan
+
 If you've create a Service Principal and added the credentials to the environment variables on your local machine, you can execute the bashrc script to load them into the session by running:
 
 > . ~/.bashrc
