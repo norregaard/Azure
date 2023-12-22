@@ -1,0 +1,78 @@
+{
+    "mode": "All",
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+          },
+          {
+            "not": {
+              "field": "name",
+              "in": "[parameters('rgNames')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Authorization/locks",
+          "evaluationDelay": "AfterProvisioningSuccess",
+          "existenceCondition": {
+            "field": "Microsoft.Authorization/locks/level",
+            "equals": "CanNotDelete"
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/c95d4458-6ecf-4a38-829e-b2e3c62cbf37"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+                "contentVersion": "1.0.0.0",
+                "resources": [
+                  {
+                    "type": "Microsoft.Authorization/locks",
+                    "apiVersion": "2020-05-01",
+                    "name": "DenyDelete",
+                    "properties": {
+                      "level": "CanNotDelete",
+                      "notes": "Prevents deletion of resource group."
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "rgNames": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Resource Groups names",
+          "description": "A comma separated list of RG names (use quotations around the RG names), that should have cannot delete resource lock, all resources will inherit the lock"
+        },
+        "defaultValue": [
+          ""
+        ]
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy, note that a custom RBAC role should be used if not Owner role is used"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    }
+  }
