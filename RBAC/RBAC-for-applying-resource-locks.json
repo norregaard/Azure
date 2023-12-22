@@ -1,0 +1,22 @@
+{
+    "properties": {
+        "roleName": "Deploy and delete resource locks, locked down",
+        "description": "Minimum permissions",
+        "assignableScopes": [
+            "/providers/Microsoft.Management/managementGroups/<add management group name here>"
+        ],
+        "permissions": [
+            {
+                "actions": [
+                    "Microsoft.Resources/deployments/write",
+                    "Microsoft.Authorization/locks/*",
+                    "Microsoft.Authorization/policies/deployIfNotExists/action",
+                    "Microsoft.Resources/checkPolicyCompliance/read"
+                ],
+                "notActions": [],
+                "dataActions": [],
+                "notDataActions": []
+            }
+        ]
+    }
+}
