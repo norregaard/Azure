@@ -1,0 +1,77 @@
+{
+    "mode": "All",
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "equals": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+                "field": "type"
+              },
+              {
+                "not": {
+                  "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/remoteVirtualNetwork.id",
+                  "in": "[parameters('allowedVnets')]"
+                }
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "equals": "Microsoft.Network/virtualNetworks",
+                "field": "type"
+              },
+              {
+                "not": {
+                  "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id",
+                  "in": "[parameters('allowedVnets')]"
+                }
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*]",
+                  "where": {
+                    "allOf": [
+                      {
+                        "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings[*].remoteVirtualNetwork.id",
+                        "exists": false
+                      }
+                    ]
+                  }
+                },
+                "greater": 0
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "parameters": {
+      "allowedVnets": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed VNets",
+          "description": "Enter list of allowed VNets using a comma ',' seperated list. VNets must be entered using their resource ID. Example: /subscriptions/{SubID}/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualNetworks/resourceGroupName/virtualNetworkPeerings/vnetName"
+        },
+        "defaultValue": []
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "deny",
+          "audit",
+          "disabled"
+        ],
+        "defaultValue": "deny"
+      }
+    }
+  }  
