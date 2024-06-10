@@ -1,0 +1,31 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vnetName": {
+            "value": "vnet-conn-weu-004"
+        },
+        "subnetName":{
+            "value": "snet-conn-weu-001"
+        },
+        "hubVnetName": {
+            "value": "vnet-conn-weu-001"
+        },
+        "HubSubscriptionId": {
+            "value": "<sub ID>"
+        },
+        "hubVnetRG": {
+            "value": "rg-netw-conn-001"
+        },
+        "subnetaddressPrefix":{
+            "value": "10.104.0.0/24"
+        },
+        "networkConfiguration": {
+            "value": {
+                "vnetAddressPrefix": [
+                    "10.104.0.0/18"
+                ]
+            }
+        }
+    }
+}
