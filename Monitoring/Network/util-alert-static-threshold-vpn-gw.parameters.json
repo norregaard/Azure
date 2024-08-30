@@ -1,0 +1,63 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "metricAlertName001": {
+            "value": "alert-UtilizationNetworkAlert-vnet-gw-001"
+        },
+        "metricAlertName002": {
+            "value": "alert-UtilizationNetworkAlert-vnet-gw-002"
+        },
+        "vpnGwId001": {
+            "value": "<insert vpn gw 1 resource Id>"
+        },
+        "vpnGwId002": {
+            "value": "<insert vpn gw 2 resource Id>"
+        },
+        "targetResourceRegion": {
+            "value": "westeurope"
+        },
+        "actionGroupResourceId": {
+            "value": "<insert action group resource Id> /subscriptions/XXX/resourceGroups/rg-xxx/providers/microsoft.insights/actiongroups/ag-UtilizationNetworkAlert-pr-weu-001"
+        },
+        "alertEnabled":{
+            "value": true
+        },
+        "actionGroupName": {
+            "value": "ag-UtilizationNetworkAlert-pr-weu-001"
+        },
+        "actionGroupShortName":{
+            "value": "ag-netw-001"
+        },
+        "emailAddress": {
+            "value": "user1@email.com"
+        },
+        "emailAddress2": {
+            "value": "user2@email.com"
+        },
+        "thresholdPrTe": {
+            "value": 312500000
+        },
+        "thresholdDe": {
+            "value": 112500000
+        },
+        "operatorStatic": {
+            "value": "GreaterThan"
+        },
+        "metricName": {
+            "value": "TunnelAverageBandwidth"
+        },
+        "criterionType": {
+            "value": "StaticThresholdCriterion"
+        },
+        "metricNamespace": {
+            "value": "Microsoft.Network/virtualNetworkGateways"
+        },
+        "timeAggregation": {
+            "value": "Average"
+        },
+        "severity": {
+            "value": 3
+        }
+    }
+}

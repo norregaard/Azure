@@ -1,0 +1,226 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "metricAlertName001": {
+            "type": "String"
+        },
+        "metricAlertName002": {
+            "type": "String"
+        },
+        "vpnGwId001": {
+            "type": "String"
+        },
+        "vpnGwId002": {
+            "type": "String"
+        },
+        "targetResourceRegion": {
+            "type": "string"
+        },
+        "alertEnabled": {
+            "type": "bool",
+            "metadata": {
+                "description": "Is the alert enabled true/false"
+            }
+        },
+        "actionGroupResourceId": {
+            "type": "string",
+            "metadata": {
+                "description": "Resource Id for the Action group."
+            }
+        },
+        "actionGroupName": {
+            "type": "String"
+        },
+        "actionGroupShortName": {
+            "type": "string",
+            "metadata": {
+                "description": "Max 12 characters"
+            }
+        },
+        "emailAddress": {
+            "type": "string",
+            "metadata": {
+                "description": "email address for action group"
+            }
+        },
+        "emailAddress2": {
+            "type": "string",
+            "metadata": {
+                "description": "secondary email address for action group"
+            }
+        },
+        "thresholdPrTe": {
+            "type": "int",
+            "metadata": {
+                "description": "threshold is noted in bytes for Prod and Test, 2,5 Gbps out of 3"
+            }
+        },
+        "thresholdDe": {
+            "type": "int",
+            "metadata": {
+                "description": "threshold is noted in bytes for Dev, 0,9 Gbps out of 1"
+            }
+        },
+        "operatorStatic": {
+            "type": "string",
+            "defaultValue": "GreaterThan",
+            "allowedValues": [
+                "Equals",
+                "NotEquals",
+                "GreaterThan",
+                "GreaterThanOrEqual",
+                "LessThan",
+                "LessThanOrEqual"
+            ],
+            "metadata": {
+                "description": "Operator comparing the current value with the threshold value."
+            }
+        },
+        "metricName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of metric"
+            }
+        },
+        "criterionType": {
+            "type": "string",
+            "defaultValue": "StaticThresholdCriterion",
+            "allowedValues": [
+                "DynamicThresholdCriterion",
+                "StaticThresholdCriterion"
+            ],
+            "metadata": {
+                "description": "Can be static or dynamic"
+            }
+        },
+        "metricNamespace": {
+            "type": "string",
+            "metadata": {
+                "description": "Resource type"
+            }
+        },
+        "timeAggregation": {
+            "type": "string",
+            "metadata": {
+                "description": "description"
+            }
+        },
+        "severity": {
+            "type": "int",
+            "metadata": {
+                "description": "Default is 3, 0 is critical"
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "microsoft.insights/metricAlerts",
+            "apiVersion": "2018-03-01",
+            "name": "[parameters('metricAlertName001')]",
+            "location": "global",
+            "properties": {
+                "severity": "[parameters('severity')]",
+                "enabled": "[parameters('alertEnabled')]",
+                "scopes": [
+                    "[parameters('vpnGwId001')]"
+                ],
+                "evaluationFrequency": "PT1M",
+                "windowSize": "PT5M",
+                "criteria": {
+                    "allOf": [
+                        {
+                            "name": "Metric1",
+                            "metricNamespace": "[parameters('metricNamespace')]",
+                            "metricName": "[parameters('metricName')]",
+                            "operator": "[parameters('operatorStatic')]",
+                            "timeAggregation": "[parameters('timeAggregation')]",
+                            "skipMetricValidation": false,
+                            "criterionType": "[parameters('criterionType')]",
+                            "threshold": "[parameters('thresholdPrTe')]"
+                        }
+                    ],
+                    "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                },
+                "autoMitigate": true,
+                "targetResourceType": "[parameters('metricNamespace')]",
+                "targetResourceRegion": "[parameters('targetResourceRegion')]",
+                "actions": [
+                    {
+                        "actionGroupId": "[parameters('actionGroupResourceId')]",
+                        "webHookProperties": {}
+                    }
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('microsoft.insights/actiongroups/', parameters('actionGroupName'))]"
+            ]
+        },
+        {
+            "type": "microsoft.insights/metricAlerts",
+            "apiVersion": "2018-03-01",
+            "name": "[parameters('metricAlertName002')]",
+            "location": "global",
+            "properties": {
+                "severity": "[parameters('severity')]",
+                "enabled": "[parameters('alertEnabled')]",
+                "scopes": [
+                    "[parameters('vpnGwId002')]"
+                ],
+                "evaluationFrequency": "PT1M",
+                "windowSize": "PT5M",
+                "criteria": {
+                    "allOf": [
+                        {
+                            "name": "Metric1",
+                            "metricNamespace": "[parameters('metricNamespace')]",
+                            "metricName": "[parameters('metricName')]",
+                            "operator": "[parameters('operatorStatic')]",
+                            "timeAggregation": "[parameters('timeAggregation')]",
+                            "skipMetricValidation": false,
+                            "criterionType": "[parameters('criterionType')]",
+                            "threshold": "[parameters('thresholdDe')]"
+                        }
+                    ],
+                    "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                },
+                "autoMitigate": true,
+                "targetResourceType": "[parameters('metricNamespace')]",
+                "targetResourceRegion": "[parameters('targetResourceRegion')]",
+                "actions": [
+                    {
+                        "actionGroupId": "[parameters('actionGroupResourceId')]",
+                        "webHookProperties": {}
+                    }
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('microsoft.insights/actiongroups/', parameters('actionGroupName'))]"
+            ]
+        },
+        {
+            "type": "microsoft.insights/actionGroups",
+            "apiVersion": "2023-01-01",
+            "name": "[parameters('actionGroupName')]",
+            "location": "Global",
+            "properties": {
+                "groupShortName": "[parameters('actionGroupShortName')]",
+                "enabled": true,
+                "emailReceivers": [
+                    {
+                        "name": "Common monitoring mailbox_-EmailAction-",
+                        "emailAddress": "[parameters('emailAddress')]",
+                        "useCommonAlertSchema": true
+                    },
+                    {
+                        "name": "Common monitoring mailbox2_-EmailAction-",
+                        "emailAddress": "[parameters('emailAddress2')]",
+                        "useCommonAlertSchema": true
+                    }
+
+                ]
+            }
+        }
+    ]
+}
