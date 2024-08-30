@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "activityLogAlertName": {
+            "value": "alert-ResourceHealthAlert-weu-001"
+        },
+        "activityLogAlertDescription": {
+            "value": "Resource Health Unhealthy Alert - Network resource"
+        },
+        "actionGroupResourceId": {
+            "value": "/subscriptions/<subscription id>/resourceGroups/<rg name>/providers/microsoft.insights/actiongroups/ag-ResourceHealthAlert-weu-001"
+        },
+        "alertEnabled":{
+            "value": true
+        },
+        "actionGroupName": {
+            "value": "ag-ResourceHealthAlert-weu-001"
+        },
+        "actionGroupShortName":{
+            "value": "ag-netw-002"
+        },
+        "emailAddress": {
+            "value": "user@email.com"
+        }
+    }
+}
