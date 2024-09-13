@@ -3,7 +3,7 @@ module privateEndpoint 'br/public:avm/res/network/private-endpoint:0.8.0' = {
   params: {
     // Required parameters
     name: 'pe-ssablob001deltmp'
-    subnetResourceId: '/subscriptions/fe82accc-f7cc-466f-9efe-1fd0143c3e57/resourceGroups/rg-netw-conn-001/providers/Microsoft.Network/virtualNetworks/vnet-conn-weu-001/subnets/snet-conn-weu-001'
+    subnetResourceId: '<subnet resource id>'
     // Non-required parameters
     privateDnsZoneGroup: {
       name: 'deployedByBicepModdule'

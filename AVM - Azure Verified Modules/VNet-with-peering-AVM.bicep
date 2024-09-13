@@ -1,12 +1,12 @@
 module myTestModule 'br/public:avm/res/network/virtual-network:0.4.0' = {
   name: 'bicep-test-vnet'
   params: {
-    name: 'vnet-conn-weu-004'
+    name: '<vnet name>'
     addressPrefixes: ['10.104.0.0/18']
     subnets: [
       {
         addressPrefix: '10.104.0.0/24'
-        name: 'snet-bicep-001'
+        name: '<subnet name>'
       }
     ]
     peerings: [
@@ -18,7 +18,7 @@ module myTestModule 'br/public:avm/res/network/virtual-network:0.4.0' = {
         remotePeeringAllowVirtualNetworkAccess: true
         remotePeeringEnabled: true
         remotePeeringName: 'peered-to-bicep-vnet'
-        remoteVirtualNetworkResourceId: '/subscriptions/fe82accc-f7cc-466f-9efe-1fd0143c3e57/resourceGroups/rg-netw-conn-001/providers/Microsoft.Network/virtualNetworks/vnet-conn-weu-001'
+        remoteVirtualNetworkResourceId: '<vnet reosurce id>'
         useRemoteGateways: false
       }
     ]
