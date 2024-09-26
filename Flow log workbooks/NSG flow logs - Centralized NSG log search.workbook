@@ -1,0 +1,272 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "crossComponentResources": [
+          "Azure Monitor",
+          "/subscriptions/<sub id>/resourceGroups/<rg name>/providers/Microsoft.OperationalInsights/workspaces/<LA workspace name>"
+        ],
+        "parameters": [
+          {
+            "isRequired": true,
+            "id": "f426ffcb-5400-4a06-88b0-d042b1d923e9",
+            "typeSettings": {
+              "selectableValues": [
+                {
+                  "durationMs": 900000
+                },
+                {
+                  "durationMs": 1800000
+                },
+                {
+                  "durationMs": 3600000
+                },
+                {
+                  "durationMs": 14400000
+                },
+                {
+                  "durationMs": 43200000
+                },
+                {
+                  "durationMs": 86400000
+                },
+                {
+                  "durationMs": 172800000
+                },
+                {
+                  "durationMs": 259200000
+                },
+                {
+                  "durationMs": 604800000
+                },
+                {
+                  "durationMs": 1209600000
+                },
+                {
+                  "durationMs": 2419200000
+                },
+                {
+                  "durationMs": 2592000000
+                },
+                {
+                  "durationMs": 5184000000
+                },
+                {
+                  "durationMs": 7776000000
+                }
+              ]
+            },
+            "type": 4,
+            "value": {
+              "durationMs": 86400000
+            },
+            "version": "KqlParameterItem/1.0",
+            "name": "TimeRange"
+          },
+          {
+            "version": "KqlParameterItem/1.0",
+            "query": "{\"version\":\"1.0.0\",\"content\":\"[\\r\\n    { \\\"value\\\":\\\"1m\\\", \\\"label\\\":\\\"1 minute\\\", \\\"selected\\\":false },\\r\\n    { \\\"value\\\":\\\"5m\\\", \\\"label\\\":\\\"5 minutes\\\", \\\"selected\\\":false },\\r\\n    { \\\"value\\\":\\\"30m\\\", \\\"label\\\":\\\"30 minutes\\\", \\\"selected\\\":false },\\r\\n    { \\\"value\\\":\\\"1h\\\", \\\"label\\\":\\\"1 hour\\\", \\\"selected\\\":true },\\r\\n    { \\\"value\\\":\\\"2h\\\", \\\"label\\\":\\\"2 hours\\\", \\\"selected\\\":false },\\r\\n    { \\\"value\\\":\\\"8h\\\", \\\"label\\\":\\\"8 hours\\\", \\\"selected\\\":false },\\r\\n    { \\\"value\\\":\\\"1d\\\", \\\"label\\\":\\\"1 day\\\", \\\"selected\\\":false },\\r\\n    { \\\"value\\\":\\\"2d\\\", \\\"label\\\":\\\"2 days\\\", \\\"selected\\\":false },\\r\\n    { \\\"value\\\":\\\"7d\\\", \\\"label\\\":\\\"7 days\\\", \\\"selected\\\":false }\\r\\n]\"}",
+            "isRequired": true,
+            "id": "a90dbd38-4e9c-4e8f-98fe-198d88f9375e",
+            "type": 2,
+            "queryType": 8,
+            "name": "TimeStep",
+            "typeSettings": {
+              "additionalResourceOptions": []
+            }
+          },
+          {
+            "id": "c940fcc6-6eb9-4812-8f01-15897e5c4558",
+            "version": "KqlParameterItem/1.0",
+            "name": "Subscription",
+            "type": 6,
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "includeAll": false
+            },
+            "value": null
+          },
+          {
+            "id": "b2771de8-acd6-4c99-97cd-12558f0a13f4",
+            "version": "KqlParameterItem/1.0",
+            "name": "NSGList_s",
+            "label": "NSG",
+            "type": 5,
+            "query": "AzureNetworkAnalytics_CL\r\n| distinct NSGList_s",
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "showDefault": false
+            },
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeRange",
+            "queryType": 0,
+            "resourceType": "microsoft.operationalinsights/workspaces",
+            "value": null
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "parameters - 2"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "## Centralized log search across NSG's in the environment\r\n\r\nHow to use: Simply add in a source or destination IP below to filter on relevant info (or any of the other available fields).\r\n\r\nThis workbook is managed by the XXX team"
+      },
+      "name": "text - 0"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "crossComponentResources": [
+          "Azure Monitor",
+          "/subscriptions/ae74874e-34da-4dfc-8a1f-b725eb777012/resourceGroups/rg-log-mgmt-002/providers/Microsoft.OperationalInsights/workspaces/log-mgmt-swc-001"
+        ],
+        "parameters": [
+          {
+            "id": "f8ff9505-474a-4034-bb28-e058a9e28157",
+            "timeContext": {
+              "durationMs": 0
+            },
+            "type": 1,
+            "value": "",
+            "version": "KqlParameterItem/1.0",
+            "timeContextFromParameter": "TimeRange",
+            "name": "nsgSourceIP"
+          },
+          {
+            "id": "27f99fa6-0913-4a8c-89f4-4dbda4c8d1d3",
+            "timeContext": {
+              "durationMs": 0
+            },
+            "type": 1,
+            "timeContextFromParameter": "TimeRange",
+            "version": "KqlParameterItem/1.0",
+            "name": "nsgDestIP",
+            "value": ""
+          },
+          {
+            "id": "44b0fb00-eaf6-4c1c-a524-9d086d808b25",
+            "version": "KqlParameterItem/1.0",
+            "name": "FlowStatus_S",
+            "label": "FlowStatus",
+            "type": 1,
+            "description": "Allow Or Deny, A or D",
+            "value": "",
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeRange"
+          },
+          {
+            "id": "b919b24f-4570-4be4-bcf8-774e87fb509f",
+            "version": "KqlParameterItem/1.0",
+            "name": "FlowDirection_s",
+            "label": "FlowDirection",
+            "type": 1,
+            "description": "Inbound or Outbound, I or O",
+            "value": "",
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeRange"
+          },
+          {
+            "id": "4a0e01e3-78e1-42bd-806e-ea792ecd1f0e",
+            "version": "KqlParameterItem/1.0",
+            "name": "NSGRule_s",
+            "label": "NsgRuleName",
+            "type": 1,
+            "description": "Name of NSG Rule",
+            "value": "",
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeRange"
+          },
+          {
+            "id": "1e8da203-ba0c-4b57-af27-72b2fe16bb56",
+            "version": "KqlParameterItem/1.0",
+            "name": "Region_s",
+            "label": "Region",
+            "type": 8,
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "includeAll": true
+            },
+            "value": null
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "parameters - 2"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AzureNetworkAnalytics_CL\r\n| where Region_s like \"{Region_s}\"\r\n| parse PublicIPs_s with PublicIP \"|\" *\r\n| where Subscription_g contains \"{Subscription:id}\"\r\n| where SrcIP_s like \"{nsgSourceIP}\" or PublicIP like \"{nsgSourceIP}\"\r\n| where DestIP_s like \"{nsgDestIP}\" or PublicIP like \"{nsgDestIP}\"\r\n| where NSGList_s like \"{NSGList_s}\"\r\n| where FlowStatus_s like \"{FlowStatus_S}\"\r\n| where FlowDirection_s like \"{FlowDirection_s}\"\r\n| where NSGRule_s like \"{NSGRule_s}\"\r\n| where SrcIP_s != \"\" or DestIP_s != \"\" or FlowStatus_s != \"\" or FlowDirection_s != \"\" or Region_s !=\"\" or Subscription_g !=\"\" or NSGList_s !=\"\"\r\n| project TimeGenerated,et = split(Subnet_s,\"/\")[1], NSG =strcat(\"/subscriptions/\",split(NSGList_s,\"/\")[0],\"/resourceGroups/\",split(NSGList_s,\"/\")[1],\"/providers/Microsoft.Network/networkSecurityGroups/\",split(NSGList_s,\"/\")[-1]), SrcIP_s, DestIP_s, DestPort_d, L4Protocol_s, L7Protocol_s, FlowDirection_s, FlowStatus_s, NSGRule_s, FlowType_s, Subnet_s",
+        "size": 2,
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "Azure Monitor",
+          "/subscriptions/ae74874e-34da-4dfc-8a1f-b725eb777012/resourceGroups/rg-log-mgmt-002/providers/Microsoft.OperationalInsights/workspaces/log-mgmt-swc-001"
+        ],
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "NSGList_s",
+              "formatter": 13,
+              "formatOptions": {
+                "linkTarget": null,
+                "showIcon": true
+              }
+            }
+          ],
+          "rowLimit": 500,
+          "filter": true,
+          "sortBy": [
+            {
+              "itemKey": "TimeGenerated",
+              "sortOrder": 2
+            }
+          ],
+          "labelSettings": [
+            {
+              "columnId": "et",
+              "label": "Virtual Network"
+            }
+          ]
+        },
+        "sortBy": [
+          {
+            "itemKey": "TimeGenerated",
+            "sortOrder": 2
+          }
+        ]
+      },
+      "name": "query - 3"
+    }
+  ],
+  "defaultResourceIds": [
+    "Azure Monitor",
+    "/subscriptions/<sub id>/resourceGroups/<rg name>/providers/Microsoft.OperationalInsights/workspaces/<LA workspace name>"
+  ],
+  "fallbackResourceIds": [
+    "Azure Monitor",
+    "/subscriptions/<sub id>/resourceGroups/<rg name>/providers/Microsoft.OperationalInsights/workspaces/<LA workspace name>"
+  ],
+  "$schema": https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json
+}
