@@ -1,0 +1,246 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "crossComponentResources": [
+          "Azure Monitor",
+          "/subscriptions/<sub id>/resourceGroups/<rg name>/providers/Microsoft.OperationalInsights/workspaces/<LA workspace name>"
+        ],
+        "parameters": [
+          {
+            "isRequired": true,
+            "id": "f426ffcb-5400-4a06-88b0-d042b1d923e9",
+            "typeSettings": {
+              "selectableValues": [
+                {
+                  "durationMs": 900000
+                },
+                {
+                  "durationMs": 1800000
+                },
+                {
+                  "durationMs": 3600000
+                },
+                {
+                  "durationMs": 14400000
+                },
+                {
+                  "durationMs": 43200000
+                },
+                {
+                  "durationMs": 86400000
+                },
+                {
+                  "durationMs": 172800000
+                },
+                {
+                  "durationMs": 259200000
+                },
+                {
+                  "durationMs": 604800000
+                },
+                {
+                  "durationMs": 1209600000
+                },
+                {
+                  "durationMs": 2419200000
+                },
+                {
+                  "durationMs": 2592000000
+                },
+                {
+                  "durationMs": 5184000000
+                },
+                {
+                  "durationMs": 7776000000
+                }
+              ]
+            },
+            "type": 4,
+            "value": {
+              "durationMs": 86400000
+            },
+            "version": "KqlParameterItem/1.0",
+            "name": "TimeRange"
+          },
+          {
+            "version": "KqlParameterItem/1.0",
+            "query": "{\"version\":\"1.0.0\",\"content\":\"[\\r\\n    { \\\"value\\\":\\\"1m\\\", \\\"label\\\":\\\"1 minute\\\", \\\"selected\\\":false },\\r\\n    { \\\"value\\\":\\\"5m\\\", \\\"label\\\":\\\"5 minutes\\\", \\\"selected\\\":false },\\r\\n    { \\\"value\\\":\\\"30m\\\", \\\"label\\\":\\\"30 minutes\\\", \\\"selected\\\":false },\\r\\n    { \\\"value\\\":\\\"1h\\\", \\\"label\\\":\\\"1 hour\\\", \\\"selected\\\":true },\\r\\n    { \\\"value\\\":\\\"2h\\\", \\\"label\\\":\\\"2 hours\\\", \\\"selected\\\":false },\\r\\n    { \\\"value\\\":\\\"8h\\\", \\\"label\\\":\\\"8 hours\\\", \\\"selected\\\":false },\\r\\n    { \\\"value\\\":\\\"1d\\\", \\\"label\\\":\\\"1 day\\\", \\\"selected\\\":false },\\r\\n    { \\\"value\\\":\\\"2d\\\", \\\"label\\\":\\\"2 days\\\", \\\"selected\\\":false },\\r\\n    { \\\"value\\\":\\\"7d\\\", \\\"label\\\":\\\"7 days\\\", \\\"selected\\\":false }\\r\\n]\"}",
+            "isRequired": true,
+            "id": "a90dbd38-4e9c-4e8f-98fe-198d88f9375e",
+            "type": 2,
+            "queryType": 8,
+            "name": "TimeStep",
+            "typeSettings": {
+              "additionalResourceOptions": []
+            }
+          },
+          {
+            "id": "c940fcc6-6eb9-4812-8f01-15897e5c4558",
+            "version": "KqlParameterItem/1.0",
+            "name": "Subscription",
+            "type": 6,
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "includeAll": false
+            },
+            "value": null
+          },
+          {
+            "id": "b2771de8-acd6-4c99-97cd-12558f0a13f4",
+            "version": "KqlParameterItem/1.0",
+            "name": "NSG",
+            "label": "",
+            "type": 5,
+            "query": "AzureNetworkAnalytics_CL\r\n| distinct NSGList_s",
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "showDefault": false
+            },
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeRange",
+            "queryType": 0,
+            "resourceType": "microsoft.operationalinsights/workspaces",
+            "value": null
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "parameters - 2"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "## VNet flow logs - Centralized log search across NSG's in the environment\r\n\r\nSearch through NSG flow logs for IPv4 traffic that is being allowed or denied through associated NSGs.  Specify a source/destination IPv4 address as well as port number to quickly find traffic flow direction, traffic allow/deny status, and NSG rule name being executed.\r\n\r\nHow to use: Simply add in a source or destination IP below to filter on relevant info (or any of the other available fields).\r\n\r\nThis workbook is managed by the XXX team"
+      },
+      "name": "text - 0"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "parameters": [
+          {
+            "id": "f8ff9505-474a-4034-bb28-e058a9e28157",
+            "version": "KqlParameterItem/1.0",
+            "name": "nsgSourceIP",
+            "type": 1,
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "timeContextFromParameter": "TimeRange",
+            "value": ""
+          },
+          {
+            "id": "27f99fa6-0913-4a8c-89f4-4dbda4c8d1d3",
+            "timeContext": {
+              "durationMs": 0
+            },
+            "type": 1,
+            "timeContextFromParameter": "TimeRange",
+            "version": "KqlParameterItem/1.0",
+            "name": "nsgDestIP",
+            "value": ""
+          },
+          {
+            "version": "KqlParameterItem/1.0",
+            "name": "AllowedOrDenied",
+            "type": 1,
+            "description": "Allowed or Denied",
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "timeContextFromParameter": "TimeRange",
+            "id": "7088a8b6-862e-4679-8915-14a12891d264",
+            "value": ""
+          },
+          {
+            "id": "b919b24f-4570-4be4-bcf8-774e87fb509f",
+            "version": "KqlParameterItem/1.0",
+            "name": "FlowDirection",
+            "label": "",
+            "type": 1,
+            "description": "Inbound or Outbound",
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "timeContextFromParameter": "TimeRange",
+            "value": ""
+          },
+          {
+            "id": "4a0e01e3-78e1-42bd-806e-ea792ecd1f0e",
+            "version": "KqlParameterItem/1.0",
+            "name": "NSG_rule",
+            "label": "",
+            "type": 1,
+            "description": "Name of NSG Rule",
+            "value": "",
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "TimeRange"
+          },
+          {
+            "id": "1e8da203-ba0c-4b57-af27-72b2fe16bb56",
+            "version": "KqlParameterItem/1.0",
+            "name": "SrcRegion",
+            "type": 8,
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "includeAll": true,
+              "showDefault": false
+            },
+            "value": null
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "parameters - 2"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "// IPv4 NSG Flow Log Search - Using VNet flow logs\r\n// Search through NSG flow logs for IPv4 traffic that is being allowed or denied through associated NSGs.  Specify a source/destination IPv4 address as well as port number to quickly find traffic flow direction, traffic allow/deny status, and NSG rule name being executed. \r\n// The Limit 100 sets the amount of returned items back to 100, change to get more.\r\n// Uncomment the bottom filter and specify SourceIP value to filter based on source IPv4 address. DestPort_d is a numeric value between 0-65535. Alternatively, you can specify DestinationIP instead of SourceIP as well as SrcPort_d as a value to flip the direction of the search.\r\nNTANetAnalytics\r\n| where SubType == \"FlowLog\"\r\n| parse SrcPublicIps with SrcPublicIp \"|\" *\r\n| parse DestPublicIps with DestPublicIp \"|\" *\r\n| extend Protocol = case(L4Protocol == 'T', \"TCP\", L4Protocol == 'U', \"UDP\", L4Protocol)\r\n| extend TimeGenCET = datetime_utc_to_local(TimeGenerated, 'Europe/Stockholm')\r\n| extend TimeGeneratedCET = format_datetime(TimeGenCET,'dd/MM/yyyy [HH:mm:ss]')\r\n| project-rename NSGFL_Version = FaSchemaVersion\r\n| project-rename AllowedOrDenied = FlowStatus\r\n| project-rename NSG_rule = AclRule\r\n| project-rename NSG = AclGroup\r\n| where SrcIp like \"{nsgSourceIP}\" or SrcPublicIp like \"{nsgSourceIP}\"\r\n| where DestIp like \"{nsgDestIP}\" or DestPublicIp like \"{nsgDestIP}\"\r\n| where FlowDirection like \"{FlowDirection}\"\r\n| where NSG_rule like \"{NSG_rule}\"\r\n| where SrcRegion like \"{SrcRegion}\"\r\n| where AllowedOrDenied like \"{AllowedOrDenied}\"\r\n| project TimeGeneratedCET, VNet = split(TargetResourceId,\"/\")[2], NSG, SrcIp, DestIp, SrcPublicIp, DestPublicIp, DestPort, Protocol, L7Protocol, FlowDirection, AllowedOrDenied, NSG_rule, NSGFL_Version, FlowEncryption, Source_subnet = split(SrcSubnet,\"/\")[2], Destination_subnet = split(DestSubnet,\"/\")[2]  \r\n//| limit 500\r\n//| where SrcPublicIps contains \"x.x.x.x\" //and DestPort_d == XXXXX\r\n",
+        "size": 2,
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "NSGList_s",
+              "formatter": 13,
+              "formatOptions": {
+                "linkTarget": null,
+                "showIcon": true
+              }
+            }
+          ],
+          "rowLimit": 500,
+          "filter": true
+        },
+        "sortBy": []
+      },
+      "name": "query - 3"
+    }
+  ],
+  "defaultResourceIds": [
+    "Azure Monitor",
+    "/subscriptions/<sub id>/resourceGroups/<rg name>/providers/Microsoft.OperationalInsights/workspaces/<LA workspace name>"
+  ],
+  "fallbackResourceIds": [
+    "Azure Monitor",
+    "/subscriptions/<sub id>/resourceGroups/<rg name>/providers/Microsoft.OperationalInsights/workspaces/<LA workspace name>"
+  ],
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
