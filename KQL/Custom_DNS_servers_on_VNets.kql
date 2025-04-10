@@ -1,0 +1,4 @@
+resources
+| where type == "microsoft.network/virtualnetworks"
+| extend dnsServers = properties.dhcpOptions.dnsServers
+| project id, name, dnsServers
