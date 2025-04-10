@@ -1,0 +1,12 @@
+resources
+| where type == "microsoft.network/virtualnetworks"
+| extend subnets = properties.subnets
+| mv-expand subnets
+| project 
+    subscriptionId,
+    vnetName = name,
+    subnetName = subnets.name,
+    addressPrefix = subnets.properties.addressPrefix,
+    nsg = subnets.properties.networkSecurityGroup.id,
+    routeTable = subnets.properties.routeTable.id
+| order by subscriptionId, vnetName

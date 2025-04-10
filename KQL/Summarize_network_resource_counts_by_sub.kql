@@ -1,0 +1,16 @@
+Resources
+| where type in (
+    "microsoft.network/virtualnetworks",
+    "microsoft.network/networksecuritygroups",
+    "microsoft.network/publicipaddresses",
+    "microsoft.network/loadbalancers",
+    "microsoft.network/networkinterfaces"
+)
+| summarize count() by subscriptionId, type
+| join kind=inner (
+    resourcecontainers
+    | where type == "microsoft.resources/subscriptions"
+    | project subscriptionId, subscriptionName = name
+) on subscriptionId
+| project subscriptionName, type, resourceCount = count_
+| order by subscriptionName, type
