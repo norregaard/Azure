@@ -1,0 +1,14 @@
+Resources
+| where type == "microsoft.network/networksecuritygroups"
+| extend securityRules = properties.securityRules
+| mv-expand securityRules
+| where securityRules.properties.direction == "Inbound"
+| where securityRules.properties.access == "Allow"
+| where securityRules.properties.destinationPortRange in ("22", "3389")
+| project 
+    subscriptionId,
+    nsgName = name,
+    ruleName = securityRules.name,
+    portRange = securityRules.properties.destinationPortRange,
+    sourceAddress = securityRules.properties.sourceAddressPrefix,
+    priority = securityRules.properties.priority

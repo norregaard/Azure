@@ -1,0 +1,12 @@
+Resources
+| where type == "microsoft.network/virtualnetworks"
+| extend peerings = properties.virtualNetworkPeerings
+| mv-expand peerings
+| project 
+    subscriptionId,
+    vnetName = name,
+    peeringName = peerings.name,
+    remoteVnet = peerings.properties.remoteVirtualNetwork.id,
+    allowGatewayTransit = peerings.properties.allowGatewayTransit,
+    peeringState = peerings.properties.peeringState
+| where peeringState == "Connected"
