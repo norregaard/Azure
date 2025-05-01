@@ -1,0 +1,17 @@
+Resources
+| where type == 'microsoft.network/networkinterfaces'
+| where name contains '-vmxx-'
+| extend
+    IPConfig = properties.ipConfigurations
+| mv-expand IPConfig
+| project
+    ResourceName = name,
+    ResourceGroup = resourceGroup,
+    //NetworkInterfaceId = id,
+    IPAddress = tostring(IPConfig.properties.privateIPAddress),
+    IPAllocationMethod = tostring(IPConfig.properties.privateIPAllocationMethod),
+    //Subnet = tostring(IPConfig.properties.subnet.id),
+    //PublicIPAddress = tostring(IPConfig.properties.publicIPAddress.id),
+    //LastUpdated = properties.lastModifiedTime,
+    Location = location
+| order by ResourceName asc
