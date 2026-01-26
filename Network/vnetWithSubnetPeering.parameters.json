@@ -1,0 +1,40 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vnetName": {
+            "value": "<vnet name>"
+        },
+        "subnetName":{
+            "value": "<snet name>"
+        },
+        "hubVnetName": {
+            "value": "<hub vnet name>"
+        },
+        "HubSubscriptionId": {
+            "value": "<subscription-id>"
+        },
+        "hubVnetRG": {
+            "value": "<hub vnet resource group>"
+        },
+        "subnetaddressPrefix":{
+            "value": "10.105.0.0/24"
+        },
+        "networkConfiguration": {
+            "value": {
+                "vnetAddressPrefix": [
+                    "10.105.0.0/18"
+                ]
+            }
+        },
+        "spokePeeringSubnetName": {
+            "value": "<subnet name>"
+        },
+        "hubPeeringSubnetName": {
+            "value": "<subnet name>"
+        },
+        "nsgName": {
+            "value": "<nsg name>"
+        }
+    }
+}
