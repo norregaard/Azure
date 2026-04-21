@@ -1,0 +1,67 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualMachine_name": {
+      "value": "<vm name>"
+    },
+    "nameSeed": {
+      "value": "infoblox-ha-cluster"
+    },
+    "VNetRG":{
+      "value": "<rg name>"
+    },
+    "adminUsername": {
+      "value": "localadmin"
+    },
+    "adminPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "<resource if for key vault, if used"
+        },
+        "secretName": "vnios-adminPassword"
+      }
+    },
+    "vnet_id": {
+      "value": "<vnet id>"
+    },
+    "availabilityZones": {
+      "value": [
+        "1"
+      ]
+    },
+    "plan_name": {
+      "value": "vgsot"
+    },
+    "plan_product": {
+      "value": "infoblox-nios-for-9_0_x-for-ddi"
+    },
+    "plan_publisher": {
+      "value": "infoblox"
+    },
+    "imageReference_version": {
+      "value": "907.53931.0"
+    },
+    "vmSize": {
+      "value": "Standard_DS12_v2"
+    },
+    "nic_lan1_privateIP": {
+      "value": "10.XXX.XX.9"
+    },
+    "nic_mgmt_privateIP": {
+      "value": "10.XXX.XX.39"
+    },
+    "nic_lan1_ha_cluster_privateIP": {
+      "value": "10.XXX.XX.10"
+    },
+    "lan1_subnet_name": {
+      "value": "<subnet 1 name>"
+    },
+    "mgmt_subnet_name": {
+      "value": "<subnet 2 name>"
+    },
+    "diskSizeGB": {
+      "value": 250
+    }
+  }
+}
