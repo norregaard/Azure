@@ -1,0 +1,28 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "application": {
+      "value": "hub"
+    },
+    "region": {
+      "value": "weu"
+    },
+    "identifier": {
+      "value": "003"
+    },
+    "hubPeerings": {
+      "value": [
+        {
+          "hubVnetName": "vnet-hub-weu-001",
+          "hubResourceGroup": "rg-netw-hub-001"
+        },
+        {
+          "hubVnetName": "vnet-hub-weu-002",
+          "hubResourceGroup": "rg-netw-hub-002",
+          "subscriptionId": "00000000-0000-0000-0000-000000000000"
+        }
+      ]
+    }
+  }
+}
