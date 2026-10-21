@@ -1,0 +1,50 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "application": {
+      "value": "hub"
+    },
+    "environment": {
+      "value": "dv"
+    },
+    "region": {
+      "value": "weu"
+    },
+    "identifier": {
+      "value": "001"
+    },
+    "hubIdentifier": {
+      "value": "001"
+    },
+    "snet1Identifier": {
+      "value": "001"
+    },
+    "snet2Identifier": {
+      "value": "002"
+    },
+    "frontendIps": {
+      "value": [
+        "10.100.0.10",
+        "10.100.1.10"
+      ]
+    },
+    "backendPool1Ips": {
+      "value": [
+        "10.100.0.20",
+        "10.100.0.21"
+      ]
+    },
+    "backendPool2Ips": {
+      "value": [
+        "10.100.1.20",
+        "10.100.1.21"
+      ]
+    },
+    "tags": {
+      "value": {
+        "Application": "hub"
+      }
+    }
+  }
+}
