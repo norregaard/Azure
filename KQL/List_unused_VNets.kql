@@ -1,0 +1,55 @@
+Resources 
+| where type =~ "microsoft.network/virtualnetworks" 
+| project 
+    vnetId = id, 
+    vnetName = name, 
+    subscriptionId, 
+    resourceGroup, 
+    addressSpaces = strcat_array(properties.addressSpace.addressPrefixes, ", ") 
+| join kind=leftouter ( 
+    Resources 
+    | where type =~ "microsoft.network/networkinterfaces" 
+    | mv-expand ipconfig = properties.ipConfigurations 
+    | extend subnetId = tostring(ipconfig.properties.subnet.id) 
+    | extend vnetId = tostring(split(subnetId, "/subnets/")[0]) 
+    | summarize nicCount = count() by vnetId 
+    )
+    on vnetId 
+| join kind=leftouter ( 
+    Resources 
+    | where type =~ "microsoft.network/privateendpoints" 
+    | extend subnetId = tostring(properties.subnet.id) 
+    | extend vnetId = tostring(split(subnetId, "/subnets/")[0]) 
+    | summarize peCount = count() by vnetId 
+    )
+    on vnetId 
+| join kind=leftouter ( 
+    Resources 
+    | where type =~ "microsoft.network/loadbalancers" 
+    | mv-expand frontend = properties.frontendIPConfigurations 
+    | extend subnetId = tostring(frontend.properties.subnet.id) 
+    | where isnotempty(subnetId) 
+    | extend vnetId = tostring(split(subnetId, "/subnets/")[0]) 
+    | summarize lbCount = count() by vnetId 
+    )
+    on vnetId 
+| join kind=leftouter ( 
+    Resources 
+    | where type =~ "microsoft.network/applicationgateways" 
+    | extend subnetId = tostring(properties.gatewayIPConfigurations[0].properties.subnet.id) 
+    | where isnotempty(subnetId) 
+    | extend vnetId = tostring(split(subnetId, "/subnets/")[0]) 
+    | summarize agwCount = count() by vnetId 
+    )
+    on vnetId 
+| where isnull(nicCount) 
+    and isnull(peCount) 
+    and isnull(lbCount) 
+    and isnull(agwCount) 
+| project 
+    subscriptionId, 
+    resourceGroup, 
+    vnetName, 
+    addressSpaces 
+| order by vnetName asc
+
